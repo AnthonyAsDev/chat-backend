@@ -1,0 +1,36 @@
+@hostname = localhost
+@port = 3000
+@host = http://{{hostname}}:{{port}}
+@api = {{host}}/api
+@contentType = application/json
+
+# @name CreateUser
+POST {{api}}/login/new
+Content-Type: {{contentType}}
+
+{
+	"nombre": "Anthony",
+	"email": "aguirre@email.com",
+	"password": "123456"
+}
+
+###
+
+# @name Login
+POST {{api}}/login
+Content-Type: {{contentType}}
+
+{
+	"email": "aguirre@email.com",
+	"password": "123456"
+}
+
+###
+
+@authToken = {{Login.response.body.token}}
+
+# @name Test
+GET {{api}}/login/renew
+Content-Type: {{contentType}}
+x-token: {{authToken}}
+
